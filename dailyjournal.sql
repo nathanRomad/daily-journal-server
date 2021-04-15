@@ -3,18 +3,21 @@ CREATE TABLE `Journal_Entries` (
 	`date`	TEXT NOT NULL,
 	`topic`	TEXT NOT NULL,
 	`journalEntry`	TEXT NOT NULL,
-	`mood`	TEXT NOT NULL
+	`moodId`	INTEGER NOT NULL,
+	FOREIGN KEY(`moodId`) REFERENCES `Moods`(`id`)
 );
+
+-- DROP TABLE `Journal_Entries`;
 
 CREATE TABLE `Moods` (
     `id`    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     `mood`    TEXT NOT NULL
 );
 
-INSERT INTO `Journal_Entries` VALUES (null, '04/15/2021', "First Journal", "test..", "Elated");
-INSERT INTO `Journal_Entries` VALUES (null, '04/15/2021', "Second Journal", "test..2", "Sad");
-INSERT INTO `Journal_Entries` VALUES (null, '04/15/2021', "Third Journal", "test..3", "Happy");
-INSERT INTO `Journal_Entries` VALUES (null, '04/15/2021', "Fourth Journal", "test..4", "Melancholy");
+INSERT INTO `Journal_Entries` VALUES (null, '04/15/2021', "First Journal", "test..", 1);
+INSERT INTO `Journal_Entries` VALUES (null, '04/15/2021', "Second Journal", "test..2", 2);
+INSERT INTO `Journal_Entries` VALUES (null, '04/15/2021', "Third Journal", "test..3", 3);
+INSERT INTO `Journal_Entries` VALUES (null, '04/15/2021', "Fourth Journal", "test..4", 4);
 
 INSERT INTO `Moods` VALUES (null, "Elated");
 INSERT INTO `Moods` VALUES (null, "Happy");
