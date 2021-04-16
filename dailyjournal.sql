@@ -1,37 +1,40 @@
-CREATE TABLE `Journal_Entries` (
+CREATE TABLE `Entry` (
 	`id`	INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	`concept`	TEXT NOT NULL,
+	`entry`	TEXT NOT NULL,
 	`date`	TEXT NOT NULL,
-	`topic`	TEXT NOT NULL,
-	`journalEntry`	TEXT NOT NULL,
 	`moodId`	INTEGER NOT NULL,
-	FOREIGN KEY(`moodId`) REFERENCES `Moods`(`id`)
+	FOREIGN KEY(`moodId`) REFERENCES `Mood`(`id`)
 );
 
--- DROP TABLE `Journal_Entries`;
+SELECT * FROM `Entry`;
 
-CREATE TABLE `Moods` (
+DROP TABLE `Journal_Entries`;
+DROP TABLE `Mood`;
+
+CREATE TABLE `Mood` (
     `id`    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    `mood`    TEXT NOT NULL
+    `label`    TEXT NOT NULL
 );
 
-INSERT INTO `Journal_Entries` VALUES (null, '04/15/2021', "First Journal", "test..", 1);
-INSERT INTO `Journal_Entries` VALUES (null, '04/15/2021', "Second Journal", "test..2", 2);
-INSERT INTO `Journal_Entries` VALUES (null, '04/15/2021', "Third Journal", "test..3", 3);
-INSERT INTO `Journal_Entries` VALUES (null, '04/15/2021', "Fourth Journal", "test..4", 4);
+INSERT INTO `Entry` VALUES (null, "First Journal", "test..", '04/15/2021', 1);
+INSERT INTO `Entry` VALUES (null, "Second Journal", "test..2", '04/15/2021', 2);
+INSERT INTO `Entry` VALUES (null, "Third Journal", "test..3", '04/15/2021', 3);
+INSERT INTO `Entry` VALUES (null, "Fourth Journal", "test..4", '04/15/2021', 4);
 
-INSERT INTO `Moods` VALUES (null, "Elated");
-INSERT INTO `Moods` VALUES (null, "Happy");
-INSERT INTO `Moods` VALUES (null, "Cheerful");
-INSERT INTO `Moods` VALUES (null, "Romantic");
-INSERT INTO `Moods` VALUES (null, "Whimsical");
-INSERT INTO `Moods` VALUES (null, "Lighthearted");
-INSERT INTO `Moods` VALUES (null, "Hopeful");
-INSERT INTO `Moods` VALUES (null, "Humorous");
-INSERT INTO `Moods` VALUES (null, "Calm");
-INSERT INTO `Moods` VALUES (null, "Melancholy");
-INSERT INTO `Moods` VALUES (null, "Reflective");
-INSERT INTO `Moods` VALUES (null, "Gloomy");
-INSERT INTO `Moods` VALUES (null, "Angry");
-INSERT INTO `Moods` VALUES (null, "Ominous");
-INSERT INTO `Moods` VALUES (null, "Clinical Depression");
-INSERT INTO `Moods` VALUES (null, "Depression");
+INSERT INTO `Mood` VALUES (null, "Elated");
+INSERT INTO `Mood` VALUES (null, "Happy");
+INSERT INTO `Mood` VALUES (null, "Cheerful");
+INSERT INTO `Mood` VALUES (null, "Romantic");
+INSERT INTO `Mood` VALUES (null, "Whimsical");
+INSERT INTO `Mood` VALUES (null, "Lighthearted");
+INSERT INTO `Mood` VALUES (null, "Hopeful");
+INSERT INTO `Mood` VALUES (null, "Humorous");
+INSERT INTO `Mood` VALUES (null, "Calm");
+INSERT INTO `Mood` VALUES (null, "Melancholy");
+INSERT INTO `Mood` VALUES (null, "Reflective");
+INSERT INTO `Mood` VALUES (null, "Gloomy");
+INSERT INTO `Mood` VALUES (null, "Angry");
+INSERT INTO `Mood` VALUES (null, "Ominous");
+INSERT INTO `Mood` VALUES (null, "Clinical Depression");
+-- INSERT INTO `Mood` VALUES (null, "Depression");

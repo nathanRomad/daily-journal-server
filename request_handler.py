@@ -1,6 +1,6 @@
 import json
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from entries import get_all_entries, get_single_entry, create_entry, delete_entry, update_entry
+from entries import get_all_entries, get_single_entry, create_entry, delete_entry, update_entry, get_entries_by_search
 from moods import get_all_moods, get_single_mood, create_mood, delete_mood, update_mood
 
 # Here's a class. It inherits from another class.
@@ -16,6 +16,18 @@ class HandleRequests(BaseHTTPRequestHandler):
         path_params = path.split("/")
         resource = path_params[1]
         id = None
+
+        # Check if there is a query string parameter
+        if "?" in resource:
+            # GIVEN: /customers?email=jenna@solis.com
+
+            param = resource.split("?")[1]  # email=jenna@solis.com
+            resource = resource.split("?")[0]  # 'customers'
+            pair = param.split("=")  # [ 'email', 'jenna@solis.com' ]
+            key = pair[0]  # 'email'
+            value = pair[1]  # 'jenna@solis.com'
+
+            return ( resource, key, value ) # (this is a tuple)
 
         # Try to get the item at index 2
         try:
@@ -51,24 +63,31 @@ class HandleRequests(BaseHTTPRequestHandler):
         response = {}  # Default response
 
         # Parse the URL and capture the tuple that is returned
-        (resource, id) = self.parse_url(self.path)
+        parsed = self.parse_url(self.path)
 
-        # If URL resource = entries
-        if resource == "entries":
-            if id is not None:
-                response = f"{get_single_entry(id)}"
+        if len(parsed) == 2:
+            ( resource, id ) = parsed
+            # If URL resource = entries
+            if resource == "entries":
+                if id is not None:
+                    response = f"{get_single_entry(id)}"
+                else:
+                    response = f"{get_all_entries()}"
 
-            else:
-                response = f"{get_all_entries()}"
+            # If URL resource = moods
+            elif resource == "moods":
+                if id is not None:
+                    response = f"{get_single_mood(id)}"
+                else:
+                    response = f"{get_all_moods()}"
 
-        # If URL resource = moods
-        elif resource == "moods":
-            if id is not None:
-                response = f"{get_single_mood(id)}"
-
-            else:
-                response = f"{get_all_moods()}"
-
+        # Response from parse_url() is a tuple with 3
+        # items in it, which means the request was for
+        # `/resource?parameter=value`
+        elif len(parsed) == 3:
+            ( resource, key, value ) = parsed
+            if key == "q" and resource == "entries":
+                response = f"{get_entries_by_search(value)}"
 
         #whatever is passed to this gets encoded and passed to the client
         self.wfile.write(response.encode())
