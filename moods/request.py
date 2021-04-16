@@ -15,7 +15,7 @@ def get_all_moods():
         SELECT
             a.id,
             a.mood
-        FROM moods a
+        FROM mood a
         """)
 
         # Initialize an empty list to hold all mood representations

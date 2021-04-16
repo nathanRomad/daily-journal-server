@@ -16,11 +16,11 @@ def get_all_entries():
         db_cursor.execute("""
         SELECT
             a.id,
+            a.concept,
+            a.entry,
             a.date,
-            a.topic,
-            a.journalEntry,
             a.moodId
-        FROM Journal_Entries a
+        FROM Entry a
         """)
 
         # Initialize an empty list to hold all entry representations
@@ -36,8 +36,8 @@ def get_all_entries():
             # Note that the database fields are specified in
             # exact order of the parameters defined in the
             # Entry class above.
-            entry = Entry(row['id'], row['date'], row['topic'],
-                            row['journalEntry'], row['moodId'])
+            entry = Entry(row['id'], row['concept'],
+                            row['entry'], row['date'], row['moodId'])
 
             entries.append(entry.__dict__)
 
@@ -54,11 +54,11 @@ def get_single_entry(id):
         db_cursor.execute("""
         SELECT
             a.id,
+            a.concept,
+            a.entry,
             a.date,
-            a.topic,
-            a.journalEntry,
             a.moodId
-        FROM Journal_Entries a
+        FROM Entry a
         WHERE a.id = ?
         """, ( id, ))
 
@@ -66,8 +66,8 @@ def get_single_entry(id):
         data = db_cursor.fetchone()
 
         # Create an entry instance from the current row
-        entry = Entry(data['id'], data['date'], data['topic'],
-                            data['journalEntry'], data['moodId'])
+        entry = Entry(data['id'], data['date'], data['concept'],
+                            data['entry'], data['moodId'])
 
         return json.dumps(entry.__dict__)
 
@@ -133,12 +133,12 @@ def get_entries_by_search(search_term):
         db_cursor.execute("""
         SELECT
             e.id,
+            e.concept,
+            e.entry,
             e.date,
-            e.topic,
-            e.journalEntry,
             e.moodId
-        FROM Journal_Entries e
-        WHERE e.journalEntry LIKE ?
+        FROM Entry e
+        WHERE e.entry LIKE ?
         """, ( f'%{search_term}%', ))
 
         entries = []
@@ -146,8 +146,8 @@ def get_entries_by_search(search_term):
         dataset = db_cursor.fetchall()
 
         for row in dataset:
-            entry = Entry(row['id'], row['date'], row['topic'],
-                            row['journalEntry'], row['moodId'])
+            entry = Entry(row['id'], row['date'], row['concept'],
+                            row['entry'], row['moodId'])
 
             entries.append(entry.__dict__)
 

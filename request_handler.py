@@ -55,12 +55,10 @@ class HandleRequests(BaseHTTPRequestHandler):
 
         if len(parsed) == 2:
             ( resource, id ) = parsed
-
             # If URL resource = entries
             if resource == "entries":
                 if id is not None:
                     response = f"{get_single_entry(id)}"
-
                 else:
                     response = f"{get_all_entries()}"
 
@@ -68,7 +66,6 @@ class HandleRequests(BaseHTTPRequestHandler):
             elif resource == "moods":
                 if id is not None:
                     response = f"{get_single_mood(id)}"
-
                 else:
                     response = f"{get_all_moods()}"
 
@@ -78,7 +75,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         elif len(parsed) ==3:
             ( resource, key, value ) = parsed
             if key == "q" and resource == "entries":
-                response = get_entries_by_search(value)
+                response = f"{get_entries_by_search(value)}"
 
         #whatever is passed to this gets encoded and passed to the client
         self.wfile.write(response.encode())
