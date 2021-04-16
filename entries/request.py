@@ -88,20 +88,31 @@ def create_entry(entry):
     return entry
 
 
+# def delete_entry(id):
+#     # Initial -1 value for entry index, in case one isn't found
+#     entry_index = -1
+
+#     # Iterate the ENTRIES list, but use enumerate() so that you
+#     # can access the index value of each item
+#     for index, entry in enumerate(ENTRIES):
+#         if entry["id"] == id:
+#             # Found the entry. Store the current index.
+#             entry_index = index
+
+#     # If the entry was found, use pop(int) to remove it from list
+#     if entry_index >= 0:
+#         ENTRIES.pop(entry_index)
+
 def delete_entry(id):
-    # Initial -1 value for entry index, in case one isn't found
-    entry_index = -1
+    with sqlite3.connect("./dailyjournal.db") as conn:
+        db_cursor = conn.cursor()
 
-    # Iterate the ENTRIES list, but use enumerate() so that you
-    # can access the index value of each item
-    for index, entry in enumerate(ENTRIES):
-        if entry["id"] == id:
-            # Found the entry. Store the current index.
-            entry_index = index
+        # entry = get_single_entry(id)
 
-    # If the entry was found, use pop(int) to remove it from list
-    if entry_index >= 0:
-        ENTRIES.pop(entry_index)
+        db_cursor.execute("""
+        DELETE FROM entry
+        WHERE id = ?
+        """, (id, ))
 
 
 

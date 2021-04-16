@@ -78,20 +78,31 @@ def create_mood(mood):
     return mood
 
 
+# def delete_mood(id):
+#     # Initial -1 value for mood index, in case one isn't found
+#     mood_index = -1
+
+#     # Iterate the MOODS list, but use enumerate() so that you
+#     # can access the index value of each item
+#     for index, mood in enumerate(MOODS):
+#         if mood["id"] == id:
+#             # Found the mood. Store the current index.
+#             mood_index = index
+
+#     # If the mood was found, use pop(int) to remove it from list
+#     if mood_index >= 0:
+#         MOODS.pop(mood_index)
+
 def delete_mood(id):
-    # Initial -1 value for mood index, in case one isn't found
-    mood_index = -1
+    with sqlite3.connect("./dailyjournal.db") as conn:
+        db_cursor = conn.cursor()
 
-    # Iterate the MOODS list, but use enumerate() so that you
-    # can access the index value of each item
-    for index, mood in enumerate(MOODS):
-        if mood["id"] == id:
-            # Found the mood. Store the current index.
-            mood_index = index
+        # mood = get_single_mood(id)
 
-    # If the mood was found, use pop(int) to remove it from list
-    if mood_index >= 0:
-        MOODS.pop(mood_index)
+        db_cursor.execute("""
+        DELETE FROM mood
+        WHERE id = ?
+        """, (id, ))
 
 
 
