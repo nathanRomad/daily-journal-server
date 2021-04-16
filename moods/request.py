@@ -14,7 +14,7 @@ def get_all_moods():
         db_cursor.execute("""
         SELECT
             a.id,
-            a.mood
+            a.label
         FROM mood a
         """)
 
@@ -31,7 +31,7 @@ def get_all_moods():
             # Note that the database fields are specified in
             # exact order of the parameters defined in the
             # Mood class above.
-            mood = Mood(row['id'], row['mood'])
+            mood = Mood(row['id'], row['label'])
 
             moods.append(mood.__dict__)
 

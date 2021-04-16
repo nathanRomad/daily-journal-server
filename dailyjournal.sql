@@ -10,11 +10,11 @@ CREATE TABLE `Entry` (
 SELECT * FROM `Entry`;
 
 DROP TABLE `Journal_Entries`;
-DROP TABLE `Moods`;
+DROP TABLE `Mood`;
 
 CREATE TABLE `Mood` (
     `id`    INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-    `mood`    TEXT NOT NULL
+    `label`    TEXT NOT NULL
 );
 
 INSERT INTO `Entry` VALUES (null, "First Journal", "test..", '04/15/2021', 1);

@@ -17,6 +17,18 @@ class HandleRequests(BaseHTTPRequestHandler):
         resource = path_params[1]
         id = None
 
+        # Check if there is a query string parameter
+        if "?" in resource:
+            # GIVEN: /customers?email=jenna@solis.com
+
+            param = resource.split("?")[1]  # email=jenna@solis.com
+            resource = resource.split("?")[0]  # 'customers'
+            pair = param.split("=")  # [ 'email', 'jenna@solis.com' ]
+            key = pair[0]  # 'email'
+            value = pair[1]  # 'jenna@solis.com'
+
+            return ( resource, key, value ) # (this is a tuple)
+
         # Try to get the item at index 2
         try:
             # Convert the string "1" to the integer 1
@@ -72,7 +84,7 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Response from parse_url() is a tuple with 3
         # items in it, which means the request was for
         # `/resource?parameter=value`
-        elif len(parsed) ==3:
+        elif len(parsed) == 3:
             ( resource, key, value ) = parsed
             if key == "q" and resource == "entries":
                 response = f"{get_entries_by_search(value)}"
