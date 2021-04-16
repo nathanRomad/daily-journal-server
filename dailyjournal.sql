@@ -34,3 +34,4 @@ INSERT INTO `Moods` VALUES (null, "Gloomy");
 INSERT INTO `Moods` VALUES (null, "Angry");
 INSERT INTO `Moods` VALUES (null, "Ominous");
 INSERT INTO `Moods` VALUES (null, "Clinical Depression");
+INSERT INTO `Moods` VALUES (null, "Depression");

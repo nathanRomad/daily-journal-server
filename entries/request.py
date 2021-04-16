@@ -110,7 +110,7 @@ def delete_entry(id):
         # entry = get_single_entry(id)
 
         db_cursor.execute("""
-        DELETE FROM entry
+        DELETE FROM Journal_Entries
         WHERE id = ?
         """, (id, ))
 

@@ -100,7 +100,7 @@ def delete_mood(id):
         # mood = get_single_mood(id)
 
         db_cursor.execute("""
-        DELETE FROM mood
+        DELETE FROM moods
         WHERE id = ?
         """, (id, ))
 
