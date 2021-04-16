@@ -124,3 +124,31 @@ def update_entry(id, new_entry):
             # Found the entry. Update the value.
             ENTRIES[index] = new_entry
             break
+
+def get_entries_by_search(search_term):
+    with sqlite3.connect("./dailyjournal.db") as conn:
+        conn.row_factory = sqlite3.Row
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        SELECT
+            e.id,
+            e.date,
+            e.topic,
+            e.journalEntry,
+            e.moodId
+        FROM Journal_Entries e
+        WHERE e.journalEntry LIKE ?
+        """, ( f'%{search_term}%', ))
+
+        entries = []
+
+        dataset = db_cursor.fetchall()
+
+        for row in dataset:
+            entry = Entry(row['id'], row['date'], row['topic'],
+                            row['journalEntry'], row['moodId'])
+
+            entries.append(entry.__dict__)
+
+    return json.dumps(entries)
