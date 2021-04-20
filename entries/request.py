@@ -146,8 +146,12 @@ def get_entries_by_search(search_term):
         dataset = db_cursor.fetchall()
 
         for row in dataset:
-            entry = Entry(row['id'], row['date'], row['concept'],
-                            row['entry'], row['moodId'])
+            entry = Entry(row['id'], 
+                        row['date'], 
+                        row['concept'],
+                        row['entry'], 
+                        row['label']
+                        )
 
             entries.append(entry.__dict__)
 
