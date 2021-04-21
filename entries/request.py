@@ -93,7 +93,6 @@ def create_entry(new_entry):
         # primary key in the response.
         new_entry['id'] = id
 
-
     return json.dumps(new_entry)
 
 def delete_entry(id):
@@ -106,8 +105,6 @@ def delete_entry(id):
         DELETE FROM Journal_Entries
         WHERE id = ?
         """, (id, ))
-
-
 
 def update_entry(id, new_entry):
     # Iterate the ENTRIES list, but use enumerate() so that
