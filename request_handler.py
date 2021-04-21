@@ -123,8 +123,6 @@ class HandleRequests(BaseHTTPRequestHandler):
         # Encode the new mood and send in response
             self.wfile.write(f"{new_mood}".encode())
 
-
-
     # Here's a method on the class that overrides the parent's method.
     # It handles any PUT request.
     def do_PUT(self):
