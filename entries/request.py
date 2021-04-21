@@ -71,37 +71,30 @@ def get_single_entry(id):
 
         return json.dumps(entry.__dict__)
 
-def create_entry(entry):
-    # Get the id value of the last entry in the list
-    max_id = ENTRIES[-1]["id"]
+def create_entry(new_entry):
+    with sqlite3.connect("./dailyjournal.db") as conn:
+        db_cursor = conn.cursor()
 
-    # Add 1 to whatever that number is
-    new_id = max_id + 1
+        db_cursor.execute("""
+        INSERT INTO Entry
+            ( concept, entry, date, moodId)
+        VALUES
+            ( ?, ?, ?, ?);
+        """, (new_entry['concept'], new_entry['entry'],
+              new_entry['date'], new_entry['moodId']))
 
-    # Add an `id` property to the entry dictionary
-    entry["id"] = new_id
+        # The `lastrowid` property on the cursor will return
+        # the primary key of the last thing that got added to
+        # the database.
+        id = db_cursor.lastrowid
 
-    # Add the entry dictionary to the list
-    ENTRIES.append(entry)
+        # Add the `id` property to the entry dictionary that
+        # was sent by the client so that the client sees the
+        # primary key in the response.
+        new_entry['id'] = id
 
-    # Return the dictionary with `id` property added
-    return entry
 
-
-# def delete_entry(id):
-#     # Initial -1 value for entry index, in case one isn't found
-#     entry_index = -1
-
-#     # Iterate the ENTRIES list, but use enumerate() so that you
-#     # can access the index value of each item
-#     for index, entry in enumerate(ENTRIES):
-#         if entry["id"] == id:
-#             # Found the entry. Store the current index.
-#             entry_index = index
-
-#     # If the entry was found, use pop(int) to remove it from list
-#     if entry_index >= 0:
-#         ENTRIES.pop(entry_index)
+    return json.dumps(new_entry)
 
 def delete_entry(id):
     with sqlite3.connect("./dailyjournal.db") as conn:
@@ -147,9 +140,9 @@ def get_entries_by_search(search_term):
 
         for row in dataset:
             entry = Entry(row['id'], 
-                        row['date'], 
                         row['concept'],
-                        row['entry'], 
+                        row['entry'],
+                        row['date'], 
                         row['label']
                         )
 
