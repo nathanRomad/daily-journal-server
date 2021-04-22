@@ -107,13 +107,30 @@ def delete_entry(id):
         """, (id, ))
 
 def update_entry(id, new_entry):
-    # Iterate the ENTRIES list, but use enumerate() so that
-    # you can access the index value of each item.
-    for index, entry in enumerate(ENTRIES):
-        if entry["id"] == id:
-            # Found the entry. Update the value.
-            ENTRIES[index] = new_entry
-            break
+    with sqlite3.connect("./dailyjournal.db") as conn:
+        db_cursor = conn.cursor()
+
+        db_cursor.execute("""
+        UPDATE Entry
+            SET
+                concept = ?,
+                entry = ?,
+                date = ?,
+                moodId = ?
+        WHERE id = ?
+        """, (new_entry['concept'], new_entry['entry'],
+              new_entry['date'], new_entry['moodId'], id, ))
+
+        # Were any rows affected?
+        # Did the client send an `id` that exists?
+        rows_affected = db_cursor.rowcount
+
+    if rows_affected == 0:
+        # Forces 404 response by main module
+        return False
+    else:
+        # Forces 204 response by main module
+        return True
 
 def get_entries_by_search(search_term):
     with sqlite3.connect("./dailyjournal.db") as conn:
